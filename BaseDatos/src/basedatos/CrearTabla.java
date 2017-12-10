@@ -6,6 +6,7 @@
 package basedatos;
 
 
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +22,10 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.undo.UndoManager;
 
 
 
@@ -39,6 +42,14 @@ public class CrearTabla extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
+        deshacer = new UndoManager();
+
+//        jTable1.addUndoableEditListener(deshacer);     //Cojo lo anterior al desahcaer.
+//        jTable1.getT
+
+
+        this.setTitle("Administración Base de datos SQLite con Java");
+        this.setIconImage(new ImageIcon("Iconos\\iconoSqlite.png").getImage());
     }
 
     /**
@@ -63,12 +74,18 @@ public class CrearTabla extends javax.swing.JDialog {
         jBAbrir = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jBGuardar = new javax.swing.JButton();
+        jBGuardarComo = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jBAgregar = new javax.swing.JButton();
+        jBGuardar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jBDeshacer = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jBRehacer = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -79,9 +96,9 @@ public class CrearTabla extends javax.swing.JDialog {
         jTable2 = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(590, 465));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTable1.setAutoCreateRowSorter(true);
@@ -112,11 +129,8 @@ public class CrearTabla extends javax.swing.JDialog {
         jTable1.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setHeaderValue("Título 2");
-        }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 254, 421, 211));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 245, 420, 220));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/Iconos/eliminar.png"))); // NOI18N
         jButton1.setToolTipText("Eliminar Fila");
@@ -125,7 +139,7 @@ public class CrearTabla extends javax.swing.JDialog {
                 eliminarFila(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 210, 33, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 33, -1));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/Iconos/anadir.png"))); // NOI18N
         jButton2.setToolTipText("Añadir Fila");
@@ -134,7 +148,7 @@ public class CrearTabla extends javax.swing.JDialog {
                 annadirFilaNueva(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 210, 33, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, 33, -1));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/Iconos/anadir.png"))); // NOI18N
         jButton3.setToolTipText("Añadir Columna");
@@ -143,7 +157,7 @@ public class CrearTabla extends javax.swing.JDialog {
                 annadirColumna(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(264, 210, 33, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 210, 33, -1));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/Iconos/eliminar.png"))); // NOI18N
         jButton4.setToolTipText("Eliminar Columna");
@@ -152,10 +166,10 @@ public class CrearTabla extends javax.swing.JDialog {
                 EliminarColumna(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(303, 210, 33, -1));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 33, -1));
 
         jComboTabla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(342, 216, 182, -1));
+        getContentPane().add(jComboTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 210, 210, 30));
 
         jPanel1.setBackground(new java.awt.Color(54, 33, 89));
 
@@ -198,13 +212,13 @@ public class CrearTabla extends javax.swing.JDialog {
         jPanel4.setBackground(new java.awt.Color(64, 43, 100));
 
         jLabel6.setBackground(new java.awt.Color(64, 43, 100));
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/abror.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/Iconos/guardarComo.png"))); // NOI18N
 
-        jBGuardar.setBackground(new java.awt.Color(54, 33, 89));
-        jBGuardar.setText("Guardar Como");
-        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
+        jBGuardarComo.setBackground(new java.awt.Color(54, 33, 89));
+        jBGuardarComo.setText("Guardar Como");
+        jBGuardarComo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBGuardarActionPerformed(evt);
+                jBGuardarComoActionPerformed(evt);
             }
         });
 
@@ -216,7 +230,7 @@ public class CrearTabla extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jBGuardarComo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -225,7 +239,7 @@ public class CrearTabla extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jBGuardar)
+                        .addComponent(jBGuardarComo)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -233,10 +247,10 @@ public class CrearTabla extends javax.swing.JDialog {
 
         jPanel6.setBackground(new java.awt.Color(64, 43, 100));
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/abror.png"))); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/Iconos/guardar.png"))); // NOI18N
 
-        jBAgregar.setBackground(new java.awt.Color(54, 33, 89));
-        jBAgregar.setText("Guardar");
+        jBGuardar.setBackground(new java.awt.Color(54, 33, 89));
+        jBGuardar.setText("Guardar");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -246,7 +260,7 @@ public class CrearTabla extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -255,7 +269,7 @@ public class CrearTabla extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jBAgregar)
+                        .addComponent(jBGuardar)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -266,6 +280,79 @@ public class CrearTabla extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Base SQLite");
+
+        jPanel7.setBackground(new java.awt.Color(64, 43, 100));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/Iconos/recuperar.png"))); // NOI18N
+
+        jBDeshacer.setBackground(new java.awt.Color(54, 33, 89));
+        jBDeshacer.setText("Deshacer ");
+        jBDeshacer.setToolTipText("Deshacer  (Ctrl +Z)");
+        jBDeshacer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDeshacerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBDeshacer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jBDeshacer)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel8.setBackground(new java.awt.Color(64, 43, 100));
+
+        jLabel10.setBackground(new java.awt.Color(64, 43, 100));
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/Iconos/rehacer.png"))); // NOI18N
+
+        jBRehacer.setBackground(new java.awt.Color(54, 33, 89));
+        jBRehacer.setText("Rehacer ");
+        jBRehacer.setToolTipText("Rehacer (Ctrl + Y)");
+        jBRehacer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBRehacerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBRehacer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jBRehacer)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -282,6 +369,8 @@ public class CrearTabla extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,10 +385,14 @@ public class CrearTabla extends javax.swing.JDialog {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 465));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 465));
 
         jPanel2.setBackground(new java.awt.Color(122, 72, 221));
 
@@ -314,6 +407,7 @@ public class CrearTabla extends javax.swing.JDialog {
 
         jTextField3.setBackground(new java.awt.Color(255, 255, 255));
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -321,6 +415,7 @@ public class CrearTabla extends javax.swing.JDialog {
 
         jTextField2.setEditable(false);
         jTextField2.setFont(new java.awt.Font("Dialog", 3, 14)); // NOI18N
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -376,8 +471,9 @@ public class CrearTabla extends javax.swing.JDialog {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -386,27 +482,29 @@ public class CrearTabla extends javax.swing.JDialog {
                 .addGap(0, 0, 0)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(19, 19, 19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 69, -1, -1));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 69, -1, 130));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basedatos/Iconos/icono.png"))); // NOI18N
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(289, 6, 160, 63));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 160, 63));
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 210, 4, 33));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 210, 4, 33));
+
+        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, 4, 33));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -637,10 +735,6 @@ public class CrearTabla extends javax.swing.JDialog {
         
     }//GEN-LAST:event_jBAbrirActionPerformed
 
-    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBGuardarActionPerformed
-
     private void eliminarFila(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarFila
        try{
         if (jTable1.getRowCount() > 0) { //Compruebo que haya filas para borrar
@@ -690,6 +784,23 @@ public class CrearTabla extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_EliminarColumna
 
+    private void jBGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarComoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBGuardarComoActionPerformed
+
+    private void jBRehacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRehacerActionPerformed
+
+        if (deshacer.canRedo()) {
+            deshacer.redo();
+        }
+    }//GEN-LAST:event_jBRehacerActionPerformed
+
+    private void jBDeshacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDeshacerActionPerformed
+        if (deshacer.canUndo()) {
+            deshacer.undo();
+        }
+    }//GEN-LAST:event_jBDeshacerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -734,16 +845,18 @@ public class CrearTabla extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAbrir;
-    private javax.swing.JButton jBAbrir2;
-    private javax.swing.JButton jBAgregar;
-    private javax.swing.JButton jBAgregar1;
+    private javax.swing.JButton jBDeshacer;
     private javax.swing.JButton jBGuardar;
+    private javax.swing.JButton jBGuardar1;
+    private javax.swing.JButton jBGuardarComo;
+    private javax.swing.JButton jBRehacer;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboTabla;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -760,13 +873,16 @@ public class CrearTabla extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+     private UndoManager deshacer;      //para deshacer 
 }
