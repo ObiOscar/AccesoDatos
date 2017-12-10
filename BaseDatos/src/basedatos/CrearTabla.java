@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -53,7 +54,6 @@ public class CrearTabla extends javax.swing.JDialog {
         jTable1 = new javax.swing.JTable();
         jBAgregar = new javax.swing.JButton();
         jBGuardar = new javax.swing.JButton();
-        jBEditar = new javax.swing.JButton();
         jBEliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -68,6 +68,7 @@ public class CrearTabla extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jComboTabla = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -102,18 +103,16 @@ public class CrearTabla extends javax.swing.JDialog {
             jTable1.getColumnModel().getColumn(0).setHeaderValue("Título 2");
         }
 
-        jBAgregar.setText("Agregar");
+        jBAgregar.setText("Guardar");
 
-        jBGuardar.setText("Guardar");
+        jBGuardar.setText("Guardar Como");
         jBGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBGuardarActionPerformed(evt);
             }
         });
 
-        jBEditar.setText("Editar");
-
-        jBEliminar.setText("Eliminar");
+        jBEliminar.setText("Borrar Base");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("xxxxxxxxxxxxx");
@@ -198,6 +197,8 @@ public class CrearTabla extends javax.swing.JDialog {
         jScrollPane2.setViewportView(jTable2);
         jTable2.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        jComboTabla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -207,7 +208,7 @@ public class CrearTabla extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,11 +217,13 @@ public class CrearTabla extends javax.swing.JDialog {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(61, 61, 61)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(jComboTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,11 +239,9 @@ public class CrearTabla extends javax.swing.JDialog {
                         .addComponent(jBAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBEliminar)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,7 +250,6 @@ public class CrearTabla extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBAgregar)
                     .addComponent(jBGuardar)
-                    .addComponent(jBEditar)
                     .addComponent(jBEliminar)
                     .addComponent(jBAbrir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -266,7 +266,8 @@ public class CrearTabla extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
@@ -317,9 +318,42 @@ public class CrearTabla extends javax.swing.JDialog {
 
         return columnName;
     }
+    
+    public void enseñarTablasListaDesplegable(Object[] nombreTabla , int numeroTablas, ResultSet resul2 ) {
+        
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel) jComboTabla.getModel();
+        modelo.setSelectedItem(nombreTabla);
+        try {
+            modelo.removeAllElements();
+
+            int contador = 0;
+
+                //Con este bucle se va rellenando las filas, indistintamente del tipo y la cantidad de objetos que haya.
+                while (numeroTablas <= contador) {
+                    for (Object nombreTab : nombreTabla) {
+                        System.out.println(nombreTab);
+                        nombreTab = resul2.getObject(contador + 1);
+                        jComboTabla.addItem((String) nombreTab);
+                        contador++;
+                        // modelo.addElement(nombreTab.toString());
+                    }
+                    // jComboTabla.setModel(modelo);
+
+//                modeloNombreTabla.addRow(Nombretabla); // Añade una fila al final
+                    //              contador = 0;
+                }
+            
+        } catch (Exception e) {
+            System.err.println("ERROR" + e.getMessage());
+        }
+    }
 
     private void jBAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAbrirActionPerformed
         jTable1.setModel(new DefaultTableModel()); //Limpiamos la tabla
+        //Limpio el ComboBox y la tabla que muestra las Tablas de la base de datos
+        jComboTabla.removeAllItems();
+        jTable2.setModel(new DefaultTableModel()); //Limpiamos la tabla
+
         String archivoAbrir = "";
         FileNameExtensionFilter filtroSQLite = new FileNameExtensionFilter("SQLite", "db");    //Se mete un filtro 
 
@@ -356,30 +390,51 @@ public class CrearTabla extends javax.swing.JDialog {
                     ResultSet resul2 = sentencia.executeQuery(sql);  //Enseño las tablas que tiene la base que has selecionado
                    
                     ResultSetMetaData metaDatosTabla = resul2.getMetaData();
-                    // Se obtiene el número de columnas.
-                    int numeroTabla = metaDatosTabla.getColumnCount();
-                    // Se crea un array de etiquetas para rellenar
-                    Object[] tabla = new Object[numeroTabla];
-                    // Se obtiene cada una de las etiquetas para cada columna
-                    for (int i = 0; i < numeroTabla; i++) {
+                    // Se obtiene el número de tablas.
+                    int numeroTablas = metaDatosTabla.getColumnCount();
+                    // Se crea un array de tamño numero de tablas que tenga la base de datos
+                    Object[] Nombretabla = new Object[numeroTablas];
+                    // Se recorre el array para obtener las tablas que tenga
+                    for (int i = 0; i < numeroTablas; i++) {
                         // Nuevamente, para ResultSetMetaData la primera columna es la 1. 
-                        tabla[i] = metaDatosTabla.getColumnLabel(i + 1);
+                        Nombretabla[i] = metaDatosTabla.getColumnLabel(i + 1);
                     }
-                    DefaultTableModel modeloTabla = (DefaultTableModel) jTable2.getModel();
-                    modeloTabla.setColumnIdentifiers(tabla);
-                    Object[] tab = new Object[numeroTabla];
+                    DefaultTableModel modeloNombreTabla = (DefaultTableModel) jTable2.getModel();
+                    modeloNombreTabla.setColumnIdentifiers(Nombretabla);
                     
-                    int contador = 0;
+                    DefaultComboBoxModel modeloLista = (DefaultComboBoxModel) jComboTabla.getModel();
+                    modeloLista.setSelectedItem(Nombretabla);
+                    
+                  //  enseñarTablasListaDesplegable(Nombretabla, numeroTablas,resul2);
+
+                    int contadorTabla = 0;
+                    int contadorLista = 0;
                     while (resul2.next()){//se eejcutaa mientras haya mas datos
-                                                //Con este bucle se va rellenando las filas, indistintamente del tipo y la cantidad de objetos que haya.
-                        while (contador < numeroTabla) {
-                            tab[contador] = resul2.getObject(contador + 1);
-                            System.out.println(resul2.getObject(contador + 1));
-                            contador++;
+                   //Con este bucle se va rellenando las filas, indistintamente del tipo y la cantidad de objetos que haya.
+                        while (contadorTabla < numeroTablas) {
+                            Nombretabla[contadorTabla] = resul2.getObject(contadorTabla + 1);
+                            System.out.println(resul2.getObject(contadorTabla + 1));
+                            contadorTabla++;
                         }
-                        modeloTabla.addRow(tab); // Añade una fila al final
-                        contador = 0;
-                        
+                        modeloNombreTabla.addRow(Nombretabla); // Añade una fila al final
+                        contadorTabla = 0;
+
+                        while (contadorLista < numeroTablas) {
+                            Nombretabla[contadorLista] = resul2.getObject(contadorLista + 1);
+                            System.out.println(resul2.getObject(contadorLista + 1));
+                            jComboTabla.addItem((String) Nombretabla[contadorLista]);
+                            contadorLista++;
+                        }
+                        contadorLista = 0;
+
+//                        for (Object nombreTab : Nombretabla) {
+//                            System.out.println(nombreTab);
+//                            nombreTab = resul2.getObject(contadorLista + 1);
+//                            jComboTabla.addItem((String) nombreTab);
+//                            contadorLista++;
+//                            // modelo.addElement(nombreTab.toString());
+//                        }
+//                        contadorLista = 0;
                     }
                     
 
@@ -551,13 +606,13 @@ public class CrearTabla extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAbrir;
     private javax.swing.JButton jBAgregar;
-    private javax.swing.JButton jBEditar;
     private javax.swing.JButton jBEliminar;
     private javax.swing.JButton jBGuardar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JComboBox<String> jComboTabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
